@@ -1,14 +1,18 @@
 function readingList(books) {
   let content = document.querySelector("#content");
+  let arrImg = [
+     "https://images-na.ssl-images-amazon.com/images/I/410RTQezHYL._SX326_BO1,204,203,200_.jpg",
+    "https://images-na.ssl-images-amazon.com/images/I/71HMyqG6MRL.jpg",'https://images-na.ssl-images-amazon.com/images/I/41as+WafrFL.jpg'
+  ];
   
   let ul = document.createElement("ul");
   for (var i=0; i<books.length; i++){
     let li = document.createElement("li");
     let pelement = document.createElement("p");
     let img = document.createElement("img");
-    //img.src =coverPage;(CAN NOT FIND THE COVERPAGR HERE !!!!)
+    img.src = arrImg[i];
     pelement.textContent = books[i].title + " by " + books[i].author;
-    let img = document.createElement("img");
+    //let img = document.createElement("img");
     
     if (books[i].alreadyRead === true) {
       li.style.background = "Green";
