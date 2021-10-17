@@ -1,5 +1,15 @@
+let list = document.getElementById("todo-list");
+list.innerHTML = "";
 function populateTodoList(todos) {
-  let list = document.getElementById("todo-list");
+  todos.forEach((element) => {
+    // let li = document.createElement("li");
+    list.innerHTML =
+      list.innerHTML +
+      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+      element.task +
+      '<span class="badge bg-primary rounded-pill"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-trash" aria-hidden="true"></i></span></li>';
+  });
+
   // Write your code to create todo list elements with completed and delete buttons here, all todos should display inside the "todo-list" element.
 }
 
@@ -12,14 +22,58 @@ let todos = [
 
 populateTodoList(todos);
 
-// This function will take the value of the input field and add it as a new todo to the bottom of the todo list. These new todos will need the completed and delete buttons adding like normal.
-function addNewTodo(event) {
-  // The code below prevents the page from refreshing when we click the 'Add Todo' button.
-  event.preventDefault();
-  // Write your code here... and remember to reset the input field to be blank after creating a todo!
+const deleteBTns = document.querySelectorAll(".fa.fa-trash");
+
+function deleteAllCompletedTodos() {
+  deleteBTns.forEach((deleteBTn) => {
+    deleteBTn.addEventListener("click", deleteTodo);
+    function deleteTodo(e) {
+      let span1 = e.target.parentElement;
+      let listItem = span1.parentElement;
+      if (listItem.style.textDecoration === "line-through") {
+        listItem.parentElement.removeChild(listItem);
+      }
+    }
+  });
+}
+function check() {
+  const completeBTns = document.querySelectorAll(".fa.fa-check");
+  completeBTns.forEach((completeBTn) => {
+    completeBTn.addEventListener("click", done);
+    function done(e) {
+      let text = e.target.parentElement;
+      if (text.parentElement.style.textDecoration === "line-through") {
+        text.parentElement.style.textDecoration = "none";
+      } else {
+        text.parentElement.style.textDecoration = "line-through";
+      }
+    }
+  });
+  deleteAllCompletedTodos();
 }
 
-// Advanced challenge: Write a fucntion that checks the todos in the todo list and deletes the completed ones (we can check which ones are completed by seeing if they have the line-through styling applied or not).
-function deleteAllCompletedTodos() {
-  // Write your code here...
+check();
+let myForm = document.forms[0];
+myForm.addEventListener("submit", addNewTodo);
+let inputItem = document.getElementById("todoInput");
+
+function addNewTodo(event) {
+  event.preventDefault();
+  var newTask = inputItem.value.trim();
+  const todoItem = { task: newTask, completed: false };
+
+  list.innerHTML =
+    list.innerHTML +
+    '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+    todoItem.task +
+    '<span class="badge bg-primary rounded-pill"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-trash" aria-hidden="true"></i></span></li>';
+  inputItem.value = "";
+  check();
 }
+
+const ListFirst = document.querySelector(
+  "li:first-child .badge.bg-primary.rounded-pill "
+);
+ListFirst.classList.add("class1");
+ListFirst.setAttribute("id", "newId");
+let ListElem = document.querySelector("li:first-child");
